@@ -10,7 +10,11 @@ int main (int argc, char* argv[])
 	videoController.getDisorderedImages(disorderedImages);
 
 	//here we make the computation but if we already saved on a file, no need for that
-	
+
+	Descriptors descriptors=Descriptors(disorderedImages);
+	Matcher matcher=Matcher(descriptors);
+
+	//////	
 	std::vector<cv::Mat> orderedImages;
 	OrderVideo orderVideo=OrderVideo("tempDistanceMatrix.txt");
 	orderVideo.getOrderedVideo(disorderedImages,orderedImages);
@@ -24,8 +28,7 @@ int main (int argc, char* argv[])
 	// std::vector<cv::Mat> disorderedImages;
 	// videoController.getDisorderedImages(disorderedImages);
 
-	// Descriptors descriptors=Descriptors(disorderedImages);
-	// Matcher matcher=Matcher(descriptors);
+
 
 	
 	// videoController.writeVideo();

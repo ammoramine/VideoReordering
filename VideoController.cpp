@@ -11,6 +11,7 @@ VideoController::VideoController(const std::string &filenameInput,const std::str
 	}
 	cv::Mat frame;
 	for(;;) {
+	// for(int k=0;k<10;k++) {
 		if (m_capture.read(frame))
 		{
 			m_disorderedImages.push_back(frame.clone());
