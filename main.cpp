@@ -1,9 +1,34 @@
 #include "VideoController.h"
+#include "Descriptors.h"
+#include "Matcher.h"
+#include "OrderVideo.h"
 // #include "VideoProcessor.h"
 int main (int argc, char* argv[])
 {
 	VideoController videoController=VideoController("corrupted_video.mp4","corrupted_video_ordered.mp4");
+	std::vector<cv::Mat> disorderedImages;
+	videoController.getDisorderedImages(disorderedImages);
+
+	//here we make the computation but if we already saved on a file, no need for that
+	
+	std::vector<cv::Mat> orderedImages;
+	OrderVideo orderVideo=OrderVideo("tempDistanceMatrix.txt");
+	orderVideo.getOrderedVideo(disorderedImages,orderedImages);
+	videoController.setOrderedImages(orderedImages);
 	videoController.writeVideo();
+	// std::vector<int> path;
+	// orderVideo.naiveReordering();
+	
+	// double a=1;
+	// VideoController videoController=VideoController("corrupted_video.mp4","corrupted_video_ordered.mp4");
+	// std::vector<cv::Mat> disorderedImages;
+	// videoController.getDisorderedImages(disorderedImages);
+
+	// Descriptors descriptors=Descriptors(disorderedImages);
+	// Matcher matcher=Matcher(descriptors);
+
+	
+	// videoController.writeVideo();
 	// std::vector<cv::Mat> disorderedImages=videoController.getDisorderedImages();
 	// VideoProcessor videoProcessor=VideoProcessor(*disorderedImages);
 	// videoProcessor.orderImages_exhaustiveResearch_WithPriorComputedCost();

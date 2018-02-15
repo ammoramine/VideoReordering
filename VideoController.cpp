@@ -56,10 +56,10 @@ void VideoController::writeVideo()
 {
 	// std::string filenameOutput="corrupted_video_copie.mp4";
 	double fps = m_capture.get( cv::CAP_PROP_FPS );
-	int a= m_disorderedImages.size();
+	int a= m_orderedImages.size();
 	// std::cout<<m_capture.get(cv::CAP_PROP_FOURCC)<<std::endl;
 	cv::Size size((int)m_capture.get( cv::CAP_PROP_FRAME_WIDTH ),(int)m_capture.get( cv::CAP_PROP_FRAME_HEIGHT ));
-	// std::cout<<m_disorderedImages.size()<<std::endl;
+	// std::cout<<m_orderedImages.size()<<std::endl;
 
 	unsigned f = (unsigned)m_capture.get( cv::CAP_PROP_FOURCC );
 	char fourcc[] = {
@@ -71,9 +71,9 @@ void VideoController::writeVideo()
 		};
 
 	cv::VideoWriter writer;writer.open( m_filenameOutput,CV_FOURCC(fourcc[0],fourcc[1],fourcc[2],fourcc[3]), fps, size );
-	for (int i=0;i<m_disorderedImages.size();i++)
+	for (int i=0;i<m_orderedImages.size();i++)
 		{
-			writer<<m_disorderedImages[i];
+			writer<<m_orderedImages[i];
 		}
 	writer.release();
 }
