@@ -65,9 +65,15 @@ void OrderVideo::naiveReordering()
 void OrderVideo::getOrderedVideo(const std::vector<cv::Mat> &disordoredImages, std::vector<cv::Mat> &orderedImages)
 // order the Images using the calculated m_path !  we should have disordoredImages.size()=m_path.size !!
 {
-	orderedImages.resize(disordoredImages.size());
-	for (int i=0;i<disordoredImages.size();i++)
-	{
-		orderedImages[i]=disordoredImages[m_path[i]];
-	}
+	// if (m_path.size()!= disordoredImages.size())
+	// {
+
+	// }
+	CV_Assert(m_path.size()!= disordoredImages.size());
+	// orderedImages.resize(disordoredImages.size());
+	// for (int i=0;i<disordoredImages.size();i++)
+	// {
+	// 	orderedImages[i]=disordoredImages[m_path[i]];
+	// }
+	orderedImages=disordoredImages;
 }

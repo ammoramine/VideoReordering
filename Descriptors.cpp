@@ -2,9 +2,9 @@
 
 Descriptors::Descriptors(const std::vector<cv::Mat> &disorderedImages)
 {
-	cv::Ptr<cv::xfeatures2d::SIFT> sift=cv::xfeatures2d::SIFT::create(50);
+	cv::Ptr<cv::xfeatures2d::SIFT> sift=cv::xfeatures2d::SIFT::create(60);
 	// sift>detectAndCompute();
-	m_disorderedImages=disorderedImages;
+	// m_disorderedImages=disorderedImages;
 	m_size=m_disorderedImages.size();
 	// std::vector<cv::Mat> masks(disorderedImages.size(),cv::Mat::ones(4,4,CV_32FC1));
 	// std::vector<cv::Mat> masks(disorderedImages.size(),cv::noArray());
@@ -40,6 +40,8 @@ void Descriptors::showKeypointsOnImage(int indexImage)
 const void Descriptors::getDescriptors(std::vector<cv::Mat> &descriptors)
 {
 	descriptors= m_descriptors;
+	// descriptors.resize(descriptors.size());
+	// for (int i=0;m_descriptors.size();i++) m_descriptors.push_back(descriptors[i]);//descriptors[i]=m_descriptors[i];
 	// return m_descriptors;
 }
 size_t Descriptors::getSize()
