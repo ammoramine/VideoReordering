@@ -2,12 +2,17 @@
 
 PartialPath::PartialPath(const std::vector<int> &list,const cv::Mat &matrixDistance)// the m_list could also be of length 1
 {
-	m_list=list;
 	m_matrixDistances=matrixDistance;
 	cv::Size sizeMatrice=m_matrixDistances.size();
 	m_n=sizeMatrice.height;
-
-
+	if (m_list.size()<m_n)
+	{
+		m_list=list;
+	}
+	else
+	{
+		throw string("the path should be smaller smaller than the size of the matrix by 1");			
+	}
 	//compute the cost of the partial path
 	m_cost=0;
 	for (int i=0;i<m_list.size()-1;i++)
@@ -128,15 +133,25 @@ double PartialPath::krushkallBound()
 
 double PartialPath::closedCost()
 {
-	if (m_list.size()==m_n)
+	// try
+	// {
+	if (m_list.size()==m_n-1)
 	{
 		double value=m_cost+m_matrixDistances.at<float>(m_list[m_list.size()-1],m_list[0]);
 		return value;
 	}
 	else
 	{
-		throw string("the path is not complete, we can't compute the closed cost");	
+			std::cout<<"the path is not complete, we can't compute the closed cost"<<std::endl;
+			exit(1);
+		// throw std::invalid_argument( "the path is not complete, we can't compute the closed cost" );
 	}
+	// }
+	// catch (std::invalid_argument& e)
+	// {
+	// 	// exit(1);
+	// // 	// std::cout<<"the path is not complete, we can't compute the closed cost"<<std::endl;
+	// }
 }
 int PartialPath::getSizePath()
 {

@@ -10,21 +10,26 @@ int main (int argc, char* argv[])
 	cv::Mat distanceMatrix;OrderVideo::readMatrix("tempDistanceMatrix.txt",distanceMatrix);
 
 	cv::Size sizeMatrice=distanceMatrix.size();
-	std::vector<int> list=std::vector<int>(sizeMatrice.height-3);
+	std::vector<int> list=std::vector<int>(sizeMatrice.height-1);
 
 	for (int i=0;i<list.size();i++) list[i]=i;	
 	
 	PartialPath partialPath=PartialPath(list,distanceMatrix);
+	PartialPath anotherPartialPath=PartialPath(partialPath);
+	std::cout<<partialPath.closedCost()<<std::endl;
 	int element;
+	partialPath.remove(element);
+	// std::cout<<partialPath.closedCost()<<std::endl;
+	partialPath.remove(element);
 	partialPath.remove(element);
 	partialPath.add(element);
 	std::vector<int> remainingList;
 	partialPath.remainingList(remainingList);
 	std::vector<int> vertivesOfGraph;
 	partialPath.listOfVerticesForGraphOfRemainingPath(vertivesOfGraph);
+	int a=partialPath.getSizePath();
 	Graph graph;partialPath.remainingGraph(graph);
-	// partialPath.getGraph(graph);
-	std::cout<<KruskalMST(&graph)<<std::endl;
+	// std::cout<<KruskalMST(&graph)<<std::endl;
 
 	return 0;
 

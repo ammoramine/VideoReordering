@@ -2,6 +2,7 @@
 #define PARTIALPATH_H_INCLUDED
 #include <vector>
 #include "kruskall.h"
+#include "stdlib.h"
 #include <opencv2/imgproc/imgproc.hpp>
 // We use this class to represent a partial path of the "traveling salesman" problem
 
@@ -24,7 +25,7 @@ class PartialPath
 		// int m_closingVertex;
 		cv::Mat m_matrixDistances;
 		std::vector<int> m_list;
-		Graph m_graph;
+		// Graph m_graph;
 		float m_cost;
 };
 
