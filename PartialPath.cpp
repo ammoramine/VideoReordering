@@ -74,7 +74,7 @@ void PartialPath::remainingGraph()
 	// 	V = m_n-1;
 	// }
     int E = (V*V-V)/2; // we consifer a full graph 
-    m_graph = (*createGraph(V, E));
+    m_graph = (*createGraph(verticesOfGraph, E));
 
     // for (int k=0;k<m_graph.E;k++)
     // {

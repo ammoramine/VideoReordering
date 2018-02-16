@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
-
+#include <vector>
  
 
 using namespace std;
@@ -33,6 +33,7 @@ struct Graph
         // undirected, the edge from src to dest is also edge from dest
         // to src. Both are counted as 1 edge here.
         struct Edge* edge;
+        int* vertex;
         // std::vector<int> verticesOfGraph;
 
 };
@@ -47,6 +48,7 @@ struct subset
 };
 
 Graph* createGraph(int V, int E);
+Graph* createGraph(const std::vector<int> &vertexes, int E);
 int find(struct subset subsets[], int i);
 void Union(struct subset subsets[], int x, int y);
 int myComp(const void* a, const void* b);

@@ -11,12 +11,28 @@ struct Graph* createGraph(int V, int E)
     graph->E = E;
 
     graph->edge = (struct Edge*) malloc(graph->E * sizeof(struct Edge));
+    graph->vertex = (int*) malloc(graph->V * sizeof(int));
+    for (int i=0;i<graph->V;i++) graph->vertex[i]=i;
     return graph;
 
 }
 
  
+struct Graph* createGraph(const std::vector<int> &vertexes, int E)
 
+{
+
+    struct Graph* graph = (struct Graph*) malloc(sizeof(struct Graph));
+    
+    graph->V = vertexes.size();
+    graph->E = E;
+
+    graph->edge = (struct Edge*) malloc(graph->E * sizeof(struct Edge));
+    graph->vertex = (int*) malloc(graph->V * sizeof(int));
+    for (int i=0;i<graph->V;i++) graph->vertex[i]=vertexes[i];
+    return graph;
+
+}
  
 
 // // A utility function to find set of an element i
@@ -114,8 +130,8 @@ double KruskalMST(struct Graph* graph)
 
     for (int v = 0; v < V; ++v)
     {
-        subsets[v].parent = v;
-        subsets[v].rank = 0;
+        subsets[graph->vertex[v]].parent = graph->vertex[v];
+        subsets[graph->vertex[v]].rank = 0;
     }
 
  
