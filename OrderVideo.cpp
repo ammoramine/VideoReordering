@@ -20,6 +20,7 @@ OrderVideo::OrderVideo(const std::string &filename)
 	cv::Size sizeMatrice=m_distanceMatrices.size();
 	m_numberOfVideos=sizeMatrice.height;
 
+	std::cout<<"ordering the video"<<std::endl;
 	naiveReordering();
 	// for (int i=0;i<m_path.size();i++)
 	// {
@@ -27,6 +28,11 @@ OrderVideo::OrderVideo(const std::string &filename)
 	// }
 }
 
+void OrderVideo::readMatrix(const std::string &filename,cv::Mat &distanceMatrices)
+{
+	cv::FileStorage myFileStorage(filename, cv::FileStorage::READ);
+	myFileStorage["distanceMatrix"] >> distanceMatrices;
+}
 void OrderVideo::naiveReordering()
 // reorder the index of the frames bo a naive reordering
 {
@@ -69,11 +75,11 @@ void OrderVideo::getOrderedVideo(const std::vector<cv::Mat> &disordoredImages, s
 	// {
 
 	// }
-	CV_Assert(m_path.size()!= disordoredImages.size());
+	// CV_Assert(m_path.size()!= disordoredImages.size());
 	// orderedImages.resize(disordoredImages.size());
-	// for (int i=0;i<disordoredImages.size();i++)
-	// {
-	// 	orderedImages[i]=disordoredImages[m_path[i]];
-	// }
-	orderedImages=disordoredImages;
+	// orderedImages=disordoredImages;
+	for (int i=0;i<disordoredImages.size();i++)
+	{
+		orderedImages.push_back(disordoredImages[m_path[i]].clone());
+	}
 }

@@ -2,17 +2,44 @@
 #include "Descriptors.h"
 #include "Matcher.h"
 #include "OrderVideo.h"
+#include "kruskall.h"
+#include "partialPath.h"
 // #include "VideoProcessor.h"
 int main (int argc, char* argv[])
 {
+	cv::Mat distanceMatrix;OrderVideo::readMatrix("tempDistanceMatrix.txt",distanceMatrix);
+
+	cv::Size sizeMatrice=distanceMatrix.size();
+	std::vector<int> list=std::vector<int>(sizeMatrice.height-3);
+
+	for (int i=0;i<list.size();i++) list[i]=i;	
+	
+	PartialPath partialPath=PartialPath(list,distanceMatrix);
+	int element;
+	partialPath.remove(element);
+	partialPath.add(element);
+	std::vector<int> remainingList;
+	partialPath.remainingList(remainingList);
+	std::vector<int> vertivesOfGraph;
+	partialPath.listOfVerticesForGraphOfRemainingPath(vertivesOfGraph);
+	partialPath.remainingGraph();
+	Graph graph;partialPath.getGraph(graph);
+	std::cout<<KruskalMST(&graph)<<std::endl;
+
+	return 0;
+
+	bool dirtyTest=true;
+	if (!dirtyTest)
+	{
+
 	VideoController videoController=VideoController("corrupted_video.mp4","corrupted_video_ordered.mp4");
 	std::vector<cv::Mat> disorderedImages;
 	videoController.getDisorderedImages(disorderedImages);
 
 	//here we make the computation but if we already saved on a file, no need for that
 
-	Descriptors descriptors=Descriptors(disorderedImages);
-	Matcher matcher=Matcher(descriptors);
+	// Descriptors descriptors=Descriptors(disorderedImages);
+	// Matcher matcher=Matcher(descriptors);
 
 	//////	
 	std::vector<cv::Mat> orderedImages;
@@ -20,6 +47,102 @@ int main (int argc, char* argv[])
 	orderVideo.getOrderedVideo(disorderedImages,orderedImages);
 	videoController.setOrderedImages(orderedImages);
 	videoController.writeVideo();
+	}
+	else
+	{
+
+		// for (int i=0;i<-1;i++)
+	// {
+	// 	std::cout<<"test : "<<i<<std::endl;
+	// }
+	// return 0;
+
+	    /* Let us create following weighted graph
+
+         10
+
+     0--------1
+
+     | \      |
+
+    6|   \5   |15
+
+     |      \ |
+
+     2--------3-----4
+
+     4           1 */
+
+    int V = 5; // Number of vertices in graph
+
+    int E = 6; // Number of edges in graph
+
+    Graph graph = (*createGraph(V, E));
+
+ 
+
+    // add edge 0-1
+
+    graph.edge[0].src = 0;
+
+    graph.edge[0].dest = 1;
+
+    graph.edge[0].weight = 10.3;
+
+ 
+
+    // add edge 0-2
+
+    graph.edge[1].src = 0;
+
+    graph.edge[1].dest = 2;
+
+    graph.edge[1].weight = 6.2;
+
+ 
+
+    // add edge 0-3
+
+    graph.edge[2].src = 0;
+
+    graph.edge[2].dest = 3;
+
+    graph.edge[2].weight = 5.5;
+
+ 
+
+    // add edge 1-3
+
+    graph.edge[3].src = 1;
+
+    graph.edge[3].dest = 3;
+
+    graph.edge[3].weight = 15;
+
+ 
+
+    // add edge 2-3
+
+    graph.edge[4].src = 2;
+
+    graph.edge[4].dest = 3;
+
+    graph.edge[4].weight = 4;
+
+ 
+
+    // add edge 3-4
+
+    graph.edge[5].src = 3;
+
+    graph.edge[5].dest = 4;
+
+    graph.edge[5].weight = 1;
+
+    double cost=KruskalMST(&graph);
+    std::cout<<"the cost is : "<< cost<<std::endl;
+}
+
 	// std::vector<int> path;
 	// orderVideo.naiveReordering();
 	
