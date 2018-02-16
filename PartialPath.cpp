@@ -61,7 +61,7 @@ void PartialPath::listOfVerticesForGraphOfRemainingPath(std::vector<int> &vertic
 	}
 
 }
-void PartialPath::remainingGraph()
+void PartialPath::remainingGraph(Graph &graph)
 {
 	
 	std::vector<int> verticesOfGraph;listOfVerticesForGraphOfRemainingPath(verticesOfGraph);
@@ -75,36 +75,36 @@ void PartialPath::remainingGraph()
 	// 	V = m_n-1;
 	// }
     int E = (V*V-V)/2; // we consifer a full graph 
-    m_graph = (*createGraph(verticesOfGraph, E));
+    graph = (*createGraph(verticesOfGraph, E));
 
-    // for (int k=0;k<m_graph.E;k++)
+    // for (int k=0;k<graph.E;k++)
     // {
     int k=0;
     cv::Mat m_matrixDistancesVerticei;
-    	for (int i=0;i<m_graph.V;i++)
+    	for (int i=0;i<graph.V;i++)
     	{
     		int verticei=verticesOfGraph[i];
     		m_matrixDistancesVerticei=m_matrixDistances.row(verticei);
     		for (int j=0;j<i;j++)
     		{
     			int verticej=verticesOfGraph[j];
-    			m_graph.edge[k].src = verticei;
-    			m_graph.edge[k].dest = verticej;
-    			m_graph.edge[k].weight = m_matrixDistancesVerticei.at<float>(verticej);
+    			graph.edge[k].src = verticei;
+    			graph.edge[k].dest = verticej;
+    			graph.edge[k].weight = m_matrixDistancesVerticei.at<float>(verticej);
     			k++;
     		}
     	}
 
 }
 
-void PartialPath::getGraph(Graph &graph)
-{
-	graph=m_graph;
-}
+// void PartialPath::getGraph(Graph &graph)
+// {
+// 	graph=graph;
+// }
 double PartialPath::krushkallBound()
 {
-	remainingGraph();
-	double costGraph=KruskalMST(&m_graph);
+	Graph graph;remainingGraph(graph);
+	double costGraph=KruskalMST(&graph);
 	if (m_list.size() > 1)
 	{
 		return costGraph;//+m_cost;

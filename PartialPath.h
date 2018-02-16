@@ -22,7 +22,7 @@ class PartialPath
 		void remove(int &element); // remove element of the list at its end 
 		void remainingList(std::vector<int> &m_remainingList);
 		void listOfVerticesForGraphOfRemainingPath(std::vector<int> &verticesOfGraph);
-		void remainingGraph();// compute a graph that contains the remaining elements
+		void remainingGraph(Graph &graph);// compute a graph that contains the remaining elements
 		// void getGraph(Graph &graph);
 		double krushkallBound(); //compute the bound associated to the partial path for the branch and bound algorithm using the krushkall algorithm for computing the minimum spanning tree
 

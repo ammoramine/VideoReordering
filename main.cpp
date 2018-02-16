@@ -22,8 +22,8 @@ int main (int argc, char* argv[])
 	partialPath.remainingList(remainingList);
 	std::vector<int> vertivesOfGraph;
 	partialPath.listOfVerticesForGraphOfRemainingPath(vertivesOfGraph);
-	partialPath.remainingGraph();
-	Graph graph;partialPath.getGraph(graph);
+	Graph graph;partialPath.remainingGraph(graph);
+	// partialPath.getGraph(graph);
 	std::cout<<KruskalMST(&graph)<<std::endl;
 
 	return 0;
