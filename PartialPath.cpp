@@ -17,12 +17,18 @@ PartialPath::PartialPath(const std::vector<int> &list,const cv::Mat &matrixDista
 	// m_cost+=m_matrixDistances.at<float>(m_list[m_list.size()-1],list[0]);
 }
 
+PartialPath::PartialPath(const PartialPath& partialPath)
+{
+	m_list=partialPath.m_list;
+	m_matrixDistances=partialPath.m_matrixDistances;
+	m_n=partialPath.m_n;
+	m_cost=partialPath.m_cost;
+
+}
 void PartialPath::add(int element)
 {
 	m_cost+=m_matrixDistances.at<float>(m_list[m_list.size()-1],element);
 	m_list.push_back(element);
-	// if(m_list.size(=))
-
 }
 void PartialPath::remove(int &element)
 {
@@ -120,6 +126,17 @@ double PartialPath::krushkallBound()
 	}
 }
 
+// double closedCost()
+// {
+// 	if (m_list.size()==m_n)
+// 	{
+// 		return m_cost+m_matrixDistances.at<float>(m_list[m_list.size[]-1],m_list[0]);
+// 	}
+// 	else
+// 	{
+// 		throw string("the path is not complete, we can't compute the closed cost")		
+// 	}
+// }
 // void PartialPath::test()
 // {
 
