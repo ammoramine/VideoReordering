@@ -9,6 +9,7 @@
 class PartialPath
 {
 	public:
+		PartialPath(const cv::Mat &matrixDistances);
 		PartialPath(const std::vector<int> &list,const cv::Mat &matrixDistances);
 		PartialPath(const PartialPath& partialPath);
 		static void PartialPathCopy(const PartialPath& partialPath,PartialPath& newPartialPath);

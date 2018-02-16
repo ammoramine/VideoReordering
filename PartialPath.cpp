@@ -30,7 +30,13 @@ PartialPath::PartialPath(const PartialPath& partialPath)
 	m_cost=partialPath.m_cost;
 
 }
-
+PartialPath::PartialPath(const cv::Mat &matrixDistances)
+{
+	m_matrixDistances=matrixDistances;
+	cv::Size sizeMatrice=m_matrixDistances.size();
+	m_n=sizeMatrice.height;
+	m_cost=std::numeric_limits<float>::infinity();
+}
 void PartialPath::PartialPathCopy(const PartialPath& partialPath,PartialPath& newPartialPath)
 {
 	newPartialPath.m_list=partialPath.m_list;
