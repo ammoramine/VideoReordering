@@ -138,6 +138,10 @@ double PartialPath::closedCost()
 		throw string("the path is not complete, we can't compute the closed cost");	
 	}
 }
+int PartialPath::getSizePath()
+{
+	return m_list.size();
+}
 // void PartialPath::test()
 // {
 
