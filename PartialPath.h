@@ -11,6 +11,7 @@ class PartialPath
 	public:
 		PartialPath(const std::vector<int> &list,const cv::Mat &matrixDistances);
 		PartialPath(const PartialPath& partialPath);
+		static void PartialPathCopy(const PartialPath& partialPath,PartialPath& newPartialPath);
 		void add(int element);// add element to the list at the end of the list
 		void remove(int &element); // remove element of the list at its end 
 		void remainingList(std::vector<int> &m_remainingList);

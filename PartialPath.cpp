@@ -30,6 +30,16 @@ PartialPath::PartialPath(const PartialPath& partialPath)
 	m_cost=partialPath.m_cost;
 
 }
+
+void PartialPath::PartialPathCopy(const PartialPath& partialPath,PartialPath& newPartialPath)
+{
+	newPartialPath.m_list=partialPath.m_list;
+	newPartialPath.m_matrixDistances=partialPath.m_matrixDistances;
+	newPartialPath.m_n=partialPath.m_n;
+	newPartialPath.m_cost=partialPath.m_cost;
+
+}
+
 void PartialPath::add(int element)
 {
 	m_cost+=m_matrixDistances.at<float>(m_list[m_list.size()-1],element);
