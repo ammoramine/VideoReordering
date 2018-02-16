@@ -134,7 +134,7 @@ double PartialPath::krushkallBound()
 	double costGraph=KruskalMST(&graph);
 	if (m_list.size() > 1)
 	{
-		return costGraph;//+m_cost;
+		return costGraph+m_cost;
 	}
 	else if (m_list.size() ==1)
 	{

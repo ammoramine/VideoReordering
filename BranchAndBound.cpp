@@ -1,18 +1,14 @@
 #include "BranchAndBound.h"
 
 
-// void initPath()
-// {
-
-// 	m_currentPath=std::vector<int>()
-// }
-
-// BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances)
-// {
-// 	PartialPath currentPath=PartialPath(std::vector(1,0),matrixOfDistances);
-// 	// PartialPath goldenPath=
-// 	BranchAndBound(matrixOfDistances)
-// }
+BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances,std::vector<int> &list)
+{
+	PartialPath currentPath=PartialPath(std::vector<int>(1,0),matrixOfDistances);
+	PartialPath goldenPath=PartialPath(matrixOfDistances);
+	// PartialPath goldenPath=
+	BranchAndBound(matrixOfDistances,currentPath,goldenPath,-1);
+	goldenPath.getList(list);
+}
 BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances,const PartialPath &currentPath,PartialPath &goldenPath,int excludedNode)
 {
 	// m_currentPath=PartialPath(currentPath);
