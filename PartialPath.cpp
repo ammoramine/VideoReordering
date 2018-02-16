@@ -21,6 +21,7 @@ void PartialPath::add(int element)
 {
 	m_cost+=m_matrixDistances.at<float>(m_list[m_list.size()-1],element);
 	m_list.push_back(element);
+	// if(m_list.size(=))
 
 }
 void PartialPath::remove(int &element)

@@ -77,7 +77,8 @@ int main (int argc, char* argv[])
 
     int E = 6; // Number of edges in graph
 
-    Graph graph = (*createGraph(V, E));
+    std::vector<int> vertexes=std::vector<int>(V,0);for (int i=0;i<V;i++) vertexes[i]=i;
+    Graph graph = (*createGraph(vertexes, E));
 
  
 
