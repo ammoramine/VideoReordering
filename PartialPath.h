@@ -23,6 +23,7 @@ class PartialPath
 		double closedCost();
 		int getSizePath();
 		void initPathByNaiveReordering();
+		void getList(std::vector<int> &list);
 	private:
 		int m_n; //length of the complete path equal to the height and width of m_matrixDistances
 		// int m_closingVertex;

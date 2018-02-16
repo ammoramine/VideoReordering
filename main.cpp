@@ -8,7 +8,7 @@
 int main (int argc, char* argv[])
 {
 	cv::Mat distanceMatrix;OrderVideo::readMatrix("tempDistanceMatrix.txt",distanceMatrix);
-
+	// BranchAndBound(distanceMatrix);
 	cv::Size sizeMatrice=distanceMatrix.size();
 	std::vector<int> list=std::vector<int>(sizeMatrice.height-1);
 
@@ -28,7 +28,7 @@ int main (int argc, char* argv[])
 
 	partialPath.initPathByNaiveReordering();
 	std::cout<<partialPath.closedCost()<<std::endl;
-
+	std::vector<int> aList;partialPath.getList(aList);
 	// std::vector<int> vertivesOfGraph;
 	// partialPath.listOfVerticesForGraphOfRemainingPath(vertivesOfGraph);
 	// int a=partialPath.getSizePath();

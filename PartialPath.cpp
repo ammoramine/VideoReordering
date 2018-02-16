@@ -214,6 +214,10 @@ void PartialPath::initPathByNaiveReordering()
 	for (int i=0;i<m_list.size();i++) m_cost+=m_matrixDistances.at<float>(m_list[i],m_list[i+1]);
 	// m_cost+=m_matrixDistances.at<float>(m_list[m_list.size()-1],m_list[0]);
 }
+void PartialPath::getList(std::vector<int> &list)
+{
+	list=m_list;
+}
 // void PartialPath::test()
 // {
 
