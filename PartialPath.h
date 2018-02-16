@@ -17,7 +17,7 @@ class PartialPath
 		void remainingGraph(Graph &graph);// compute a graph that contains the remaining elements
 		// void getGraph(Graph &graph);
 		double krushkallBound(); //compute the bound associated to the partial path for the branch and bound algorithm using the krushkall algorithm for computing the minimum spanning tree
-
+		double closedCost();
 	private:
 		int m_n; //length of the complete path equal to the height and width of m_matrixDistances
 		// int m_closingVertex;

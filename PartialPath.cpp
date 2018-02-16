@@ -126,17 +126,18 @@ double PartialPath::krushkallBound()
 	}
 }
 
-// double closedCost()
-// {
-// 	if (m_list.size()==m_n)
-// 	{
-// 		return m_cost+m_matrixDistances.at<float>(m_list[m_list.size[]-1],m_list[0]);
-// 	}
-// 	else
-// 	{
-// 		throw string("the path is not complete, we can't compute the closed cost")		
-// 	}
-// }
+double PartialPath::closedCost()
+{
+	if (m_list.size()==m_n)
+	{
+		double value=m_cost+m_matrixDistances.at<float>(m_list[m_list.size()-1],m_list[0]);
+		return value;
+	}
+	else
+	{
+		throw string("the path is not complete, we can't compute the closed cost");	
+	}
+}
 // void PartialPath::test()
 // {
 
