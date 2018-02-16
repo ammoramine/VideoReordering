@@ -25,10 +25,14 @@ int main (int argc, char* argv[])
 	partialPath.add(element);
 	std::vector<int> remainingList;
 	partialPath.remainingList(remainingList);
-	std::vector<int> vertivesOfGraph;
-	partialPath.listOfVerticesForGraphOfRemainingPath(vertivesOfGraph);
-	int a=partialPath.getSizePath();
-	Graph graph;partialPath.remainingGraph(graph);
+
+	partialPath.initPathByNaiveReordering();
+	std::cout<<partialPath.closedCost()<<std::endl;
+
+	// std::vector<int> vertivesOfGraph;
+	// partialPath.listOfVerticesForGraphOfRemainingPath(vertivesOfGraph);
+	// int a=partialPath.getSizePath();
+	// Graph graph;partialPath.remainingGraph(graph);
 	// std::cout<<KruskalMST(&graph)<<std::endl;
 
 	return 0;

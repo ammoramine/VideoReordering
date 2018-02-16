@@ -157,6 +157,47 @@ int PartialPath::getSizePath()
 {
 	return m_list.size();
 }
+
+void PartialPath::initPathByNaiveReordering()
+// reorder the index of the frames bo a naive reordering
+{
+	m_list.clear();
+
+	std::vector<int> listOfRemainingIndexes=std::vector<int>(m_n,0);
+	for (int i=0;i<listOfRemainingIndexes.size();i++) listOfRemainingIndexes[i]=i;
+	listOfRemainingIndexes.erase(listOfRemainingIndexes.begin());
+	
+	m_list.push_back(0);//
+	
+	// std::vector<int> m_path=std::vector<int>(1,0);
+	int i=0;//
+	int iNext;
+	int iNextIndex;
+	// listOfRemainingIndexes
+	while(listOfRemainingIndexes.size()>1)
+	{
+		// const float* distanceMatricesi=m_distanceMatrices.ptr<float>(i);
+		// int m_matrixDistancesiMin=distanceMatricesi[i];
+		float m_matrixDistancesiMin=m_matrixDistances.at<float>(i,i);
+		for (int j=0;j<listOfRemainingIndexes.size();j++)
+		{
+			// float newDistance=distanceMatricesi[listOfRemainingIndexes[j]];
+			float newDistance=m_matrixDistances.at<float>(i,listOfRemainingIndexes[j]);
+			if(newDistance<m_matrixDistancesiMin)
+			{
+				iNext=listOfRemainingIndexes[j];
+				iNextIndex=j;
+				m_matrixDistancesiMin=newDistance;
+			}
+		}
+		listOfRemainingIndexes.erase(listOfRemainingIndexes.begin()+iNextIndex);
+		m_list.push_back(iNext);
+		i=iNext;
+	}
+	m_cost=0;
+	for (int i=0;i<m_list.size();i++) m_cost+=m_matrixDistances.at<float>(m_list[i],m_list[i+1]);
+	// m_cost+=m_matrixDistances.at<float>(m_list[m_list.size()-1],m_list[0]);
+}
 // void PartialPath::test()
 // {
 
