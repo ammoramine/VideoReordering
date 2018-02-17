@@ -14,26 +14,26 @@ int main (int argc, char* argv[])
 	cv::Mat distanceMatrix;OrderVideo::readMatrix("tempDistanceMatrix.txt",distanceMatrix);
 	std::vector<int> goldenList;BranchAndBound(distanceMatrix,goldenList);
 
-	cv::Size sizeMatrice=distanceMatrix.size();
-	std::vector<int> list=std::vector<int>(sizeMatrice.height-1);
+	// cv::Size sizeMatrice=distanceMatrix.size();
+	// std::vector<int> list=std::vector<int>(sizeMatrice.height-1);
 
-	for (int i=0;i<list.size();i++) list[i]=i;	
+	// for (int i=0;i<list.size();i++) list[i]=i;	
 	
-	PartialPath partialPath=PartialPath(list,distanceMatrix);
-	PartialPath anotherPartialPath=PartialPath(partialPath);
-	std::cout<<partialPath.closedCost()<<std::endl;
-	int element;
-	partialPath.remove(element);
+	// PartialPath partialPath=PartialPath(list,distanceMatrix);
+	// PartialPath anotherPartialPath=PartialPath(partialPath);
 	// std::cout<<partialPath.closedCost()<<std::endl;
-	partialPath.remove(element);
-	partialPath.remove(element);
-	partialPath.add(element);
-	std::vector<int> remainingList;
-	partialPath.remainingList(remainingList);
+	// int element;
+	// partialPath.remove(element);
+	// // std::cout<<partialPath.closedCost()<<std::endl;
+	// partialPath.remove(element);
+	// partialPath.remove(element);
+	// partialPath.add(element);
+	// std::vector<int> remainingList;
+	// partialPath.remainingList(remainingList);
 
-	partialPath.initPathByNaiveReordering();
-	std::cout<<partialPath.closedCost()<<std::endl;
-	std::vector<int> aList;partialPath.getList(aList);
+	// partialPath.initPathByNaiveReordering();
+	// std::cout<<partialPath.closedCost()<<std::endl;
+	// std::vector<int> aList;partialPath.getList(aList);
 	// std::vector<int> vertivesOfGraph;
 	// partialPath.listOfVerticesForGraphOfRemainingPath(vertivesOfGraph);
 	// int a=partialPath.getSizePath();
@@ -42,6 +42,7 @@ int main (int argc, char* argv[])
 
 	return 0;
 	}
+	// bool dirtyTest=true;
 	bool dirtyTest=false;
 	if (!dirtyTest)
 	{

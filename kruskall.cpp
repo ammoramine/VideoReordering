@@ -138,8 +138,8 @@ double KruskalMST( Graph graph)
 
     for (int v = 0; v < V; ++v)
     {
-        subsets[graph.vertex[v]].parent = graph.vertex[v];
-        subsets[graph.vertex[v]].rank = 0;
+        subsets[v].parent = v;
+        subsets[v].rank = 0;
     }
 
  

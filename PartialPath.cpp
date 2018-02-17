@@ -54,7 +54,10 @@ void PartialPath::add(int element)
 void PartialPath::remove(int &element)
 {
 	element=m_list[m_list.size()-1];
-	m_cost-=m_matrixDistances.at<float>(m_list[m_list.size()-2],element);
+	if (m_list.size()>1)
+	{
+		m_cost-=m_matrixDistances.at<float>(m_list[m_list.size()-2],element);
+	}
 	m_list.pop_back();
 }
 void PartialPath::remainingList(std::vector<int> &remainingList)
@@ -89,6 +92,7 @@ void PartialPath::listOfVerticesForGraphOfRemainingPath(std::vector<int> &vertic
 
 }
 void PartialPath::remainingGraph(Graph &graph)
+// for the construction of the graph, we number the index of the graph from 0 to the size of its vertices, and  we give for each edge (i,j) the cost m_matrixDistances(verticei,verticej)
 {
 	
 	std::vector<int> verticesOfGraph;listOfVerticesForGraphOfRemainingPath(verticesOfGraph);
@@ -115,8 +119,8 @@ void PartialPath::remainingGraph(Graph &graph)
     		for (int j=0;j<i;j++)
     		{
     			int verticej=verticesOfGraph[j];
-    			graph.edge[k].src = verticei;
-    			graph.edge[k].dest = verticej;
+    			graph.edge[k].src = i;
+    			graph.edge[k].dest = j;
     			graph.edge[k].weight = m_matrixDistancesVerticei.at<float>(verticej);
     			k++;
     		}

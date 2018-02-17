@@ -49,7 +49,7 @@ BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances,const PartialPat
 		double value=m_currentPath.krushkallBound();
 		if (value<goldenPath.closedCost())
 		{
-			BranchAndBound(matrixOfDistances,m_currentPath,goldenPath,excludedNode);
+			BranchAndBound(matrixOfDistances,m_currentPath,goldenPath,-1);
 		}
 		int anElement;m_currentPath.remove(anElement); // get Back to the initial form before the next iteration of the loop
 	}
