@@ -4,11 +4,16 @@
 #include "OrderVideo.h"
 #include "kruskall.h"
 #include "partialPath.h"
-// #include "VideoProcessor.h"
+#include "BranchAndBound.h"
 int main (int argc, char* argv[])
 {
+	bool testBranchAndBound=true;
+	// bool testBranchAndBound=false;
+	if(testBranchAndBound)
+	{
 	cv::Mat distanceMatrix;OrderVideo::readMatrix("tempDistanceMatrix.txt",distanceMatrix);
-	// BranchAndBound(distanceMatrix);
+	std::vector<int> goldenList;BranchAndBound(distanceMatrix,goldenList);
+
 	cv::Size sizeMatrice=distanceMatrix.size();
 	std::vector<int> list=std::vector<int>(sizeMatrice.height-1);
 
@@ -36,8 +41,8 @@ int main (int argc, char* argv[])
 	// std::cout<<KruskalMST(&graph)<<std::endl;
 
 	return 0;
-
-	bool dirtyTest=true;
+	}
+	bool dirtyTest=false;
 	if (!dirtyTest)
 	{
 
@@ -47,15 +52,15 @@ int main (int argc, char* argv[])
 
 	//here we make the computation but if we already saved on a file, no need for that
 
-	// Descriptors descriptors=Descriptors(disorderedImages);
-	// Matcher matcher=Matcher(descriptors);
+	Descriptors descriptors=Descriptors(disorderedImages);
+	Matcher matcher=Matcher(descriptors);
 
-	//////	
-	std::vector<cv::Mat> orderedImages;
-	OrderVideo orderVideo=OrderVideo("tempDistanceMatrix.txt");
-	orderVideo.getOrderedVideo(disorderedImages,orderedImages);
-	videoController.setOrderedImages(orderedImages);
-	videoController.writeVideo();
+	// //////	
+	// std::vector<cv::Mat> orderedImages;
+	// OrderVideo orderVideo=OrderVideo("tempDistanceMatrix.txt");
+	// orderVideo.getOrderedVideo(disorderedImages,orderedImages);
+	// videoController.setOrderedImages(orderedImages);
+	// videoController.writeVideo();
 	}
 	else
 	{
@@ -87,7 +92,7 @@ int main (int argc, char* argv[])
     int E = 6; // Number of edges in graph
 
     std::vector<int> vertexes=std::vector<int>(V,0);for (int i=0;i<V;i++) vertexes[i]=i;
-    Graph graph = (*createGraph(vertexes, E));
+    Graph graph = createGraph(vertexes, E);
 
  
 
@@ -149,7 +154,7 @@ int main (int argc, char* argv[])
 
     graph.edge[5].weight = 1;
 
-    double cost=KruskalMST(&graph);
+    double cost=KruskalMST(graph);
     std::cout<<"the cost is : "<< cost<<std::endl;
 }
 

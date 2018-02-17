@@ -1,35 +1,41 @@
 #include "kruskall.h"
 // Creates a graph with V vertices and E edges
 
-struct Graph* createGraph(int V, int E)
+Graph createGraph(int V, int E)
 
 {
 
-    struct Graph* graph = (struct Graph*) malloc(sizeof(struct Graph));
-    
-    graph->V = V;
-    graph->E = E;
+    // cv::Ptr<Graph> graph = (cv::Ptr<Graph>) malloc(sizeof(struct Graph));
+    // cv::Ptr<Graph> graph = new Graph;
+    Graph graph;
+    graph.V = V;
+    graph.E = E;
 
-    graph->edge = (struct Edge*) malloc(graph->E * sizeof(struct Edge));
-    graph->vertex = (int*) malloc(graph->V * sizeof(int));
-    for (int i=0;i<graph->V;i++) graph->vertex[i]=i;
+    // graph.edge = ( cv::Ptr<Edge>) malloc(graph.E * sizeof(struct Edge));
+    // graph.vertex = (cv::Ptr<int>) malloc(graph.V * sizeof(int));
+    graph.edge= new Edge[graph.E];
+    graph.vertex =new int[graph.V];
+    for (int i=0;i<graph.V;i++) graph.vertex[i]=i;
     return graph;
 
 }
 
  
-struct Graph* createGraph(const std::vector<int> &vertexes, int E)
+Graph createGraph(const std::vector<int> &vertexes, int E)
 
 {
 
-    struct Graph* graph = (struct Graph*) malloc(sizeof(struct Graph));
-    
-    graph->V = vertexes.size();
-    graph->E = E;
+     // cv::Ptr<Graph> graph = ( cv::Ptr<Graph>) malloc(sizeof(struct Graph));
+    // cv::Ptr<Graph> graph = new Graph;
+    Graph graph;
+    graph.V = vertexes.size();
+    graph.E = E;
 
-    graph->edge = (struct Edge*) malloc(graph->E * sizeof(struct Edge));
-    graph->vertex = (int*) malloc(graph->V * sizeof(int));
-    for (int i=0;i<graph->V;i++) graph->vertex[i]=vertexes[i];
+    // graph.edge = ( cv::Ptr<Edge>) malloc(graph.E * sizeof(struct Edge));
+    // graph.vertex = (cv::Ptr<int>) malloc(graph.V * sizeof(int));
+    graph.edge= new Edge[graph.E];
+    graph.vertex =new int[graph.V];
+    for (int i=0;i<graph.V;i++) graph.vertex[i]=vertexes[i];
     return graph;
 
 }
@@ -39,7 +45,7 @@ struct Graph* createGraph(const std::vector<int> &vertexes, int E)
 // (uses path compression technique)
 // in fact this is the representant of the set, the root of the trre associated with the subset
 
-int find(struct subset subsets[], int i)
+int find( subset subsets[], int i)
 {
     // find root and make root as parent of i (path compression)
     if (subsets[i].parent != i)
@@ -55,7 +61,7 @@ int find(struct subset subsets[], int i)
 
 // // (uses union by rank)
 
-void Union(struct subset subsets[], int x, int y)
+void Union( subset subsets[], int x, int y)
 
 {
 
@@ -92,11 +98,12 @@ int myComp(const void* a, const void* b)
 
 {
 
-    struct Edge* a1 = (struct Edge*) a;
+     Edge* a1 = (Edge*) a;
 
-    struct Edge* b1 = (struct Edge*) b;
+     Edge* b1 = (Edge*) b;
 
     return (int) a1->weight-b1->weight;
+
 
 }
 
@@ -104,11 +111,11 @@ int myComp(const void* a, const void* b)
 
 // The main function to construct MST using Kruskal's algorithm
 
-double KruskalMST(struct Graph* graph)
+double KruskalMST( Graph graph)
 
 {
 
-    int V = graph->V;
+    int V = graph.V;
 
     struct Edge result[V]; // Tnis will store the resultant MST
 
@@ -122,16 +129,17 @@ double KruskalMST(struct Graph* graph)
 
     // array of edges
 
-    qsort(graph->edge, graph->E, sizeof(graph->edge[0]), myComp);
+    qsort(graph.edge, graph.E, sizeof(graph.edge[0]), myComp);
     // Allocate memory for creating V ssubsets
 
-    struct subset *subsets = (struct subset*) malloc(V * sizeof(struct subset));
+    // struct subset *subsets = (struct subset*) malloc(V * sizeof(struct subset));
+    cv::Ptr<subset> subsets= new subset[V];
     // Create V subsets with single elements
 
     for (int v = 0; v < V; ++v)
     {
-        subsets[graph->vertex[v]].parent = graph->vertex[v];
-        subsets[graph->vertex[v]].rank = 0;
+        subsets[graph.vertex[v]].parent = graph.vertex[v];
+        subsets[graph.vertex[v]].rank = 0;
     }
 
  
@@ -146,7 +154,7 @@ double KruskalMST(struct Graph* graph)
 
         // for next iteration
 
-        struct Edge next_edge = graph->edge[i++];
+        Edge next_edge = graph.edge[i++];
         int x = find(subsets, next_edge.src);
         int y = find(subsets, next_edge.dest);
 
