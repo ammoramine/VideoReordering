@@ -42,14 +42,17 @@ BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances,const PartialPat
 	for (int k=0;k<remainingList.size();k++)
 	{
 		// PartialPath::PartialPathCopy(m_currentPath,currentPathPlusNodeRemainingListk);
-		PartialPath currentPathPlusNodeRemainingListk=PartialPath(m_currentPath);
-		currentPathPlusNodeRemainingListk.add(remainingList[k]);
-		double value=currentPathPlusNodeRemainingListk.krushkallBound();
+		// PartialPath currentPathPlusNodeRemainingListk=PartialPath(m_currentPath);
+		// currentPathPlusNodeRemainingListk.add(remainingList[k]);
+		m_currentPath.add(remainingList[k]);
+		// std::cout<<m_currentPath.getSizePath()<<std::endl;
+		double value=m_currentPath.krushkallBound();
 		if (value<goldenPath.closedCost())
 		{
-			BranchAndBound(matrixOfDistances,currentPathPlusNodeRemainingListk,goldenPath,excludedNode);
-		} 
+			BranchAndBound(matrixOfDistances,m_currentPath,goldenPath,excludedNode);
+		}
+		int anElement;m_currentPath.remove(anElement); // get Back to the initial form before the next iteration of the loop
 	}
 	int AnOtherExcludedNode;m_currentPath.remove(AnOtherExcludedNode);
-	BranchAndBound(matrixOfDistances,m_currentPath,goldenPath,excludedNode);
+	BranchAndBound(matrixOfDistances,m_currentPath,goldenPath,AnOtherExcludedNode);
 }
