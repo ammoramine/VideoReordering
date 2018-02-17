@@ -102,7 +102,7 @@ void PartialPath::remainingGraph(Graph &graph)
 	// 	V = m_n-1;
 	// }
     int E = (V*V-V)/2; // we consifer a full graph 
-    graph = (*createGraph(verticesOfGraph, E));
+    graph = createGraph(verticesOfGraph, E);
 
     // for (int k=0;k<graph.E;k++)
     // {
@@ -131,7 +131,7 @@ void PartialPath::remainingGraph(Graph &graph)
 double PartialPath::krushkallBound()
 {
 	Graph graph;remainingGraph(graph);
-	double costGraph=KruskalMST(&graph);
+	double costGraph=KruskalMST(graph);
 	if (m_list.size() > 1)
 	{
 		return costGraph+m_cost;
@@ -211,7 +211,7 @@ void PartialPath::initPathByNaiveReordering()
 		i=iNext;
 	}
 	m_cost=0;
-	for (int i=0;i<m_list.size();i++) m_cost+=m_matrixDistances.at<float>(m_list[i],m_list[i+1]);
+	for (int i=0;i<m_list.size()-1;i++) m_cost+=m_matrixDistances.at<float>(m_list[i],m_list[i+1]);
 	// m_cost+=m_matrixDistances.at<float>(m_list[m_list.size()-1],m_list[0]);
 }
 void PartialPath::getList(std::vector<int> &list)
