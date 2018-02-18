@@ -3,6 +3,7 @@
 Matcher::Matcher( Descriptors &descriptors)
 {
 	descriptors.getDescriptors(m_descriptors);
+	descriptors.getKeypoints(m_keypoints);
 	// m_descriptor = new Descriptors (descriptor);
 	computeDistanceMatrices();
 }
@@ -11,16 +12,32 @@ Matcher::Matcher( Descriptors &descriptors)
 // 	delete m_descriptor;
 // }
 
-double Matcher::computeDistanceDescriptor(const cv::Mat &Descriptori,const cv::Mat &Descriptorj)
+
+		// std::vector<cv::Mat> m_descriptors; //a pointer to the descriptors of every frame of the video
+
+		// std::vector<std::vector<cv::KeyPoint> > m_keypoints;
+
+double Matcher::computeDistanceDescriptor(const cv::Mat &Descriptori,const cv::Mat &Descriptorj,const std::vector<cv::KeyPoint> &keypointsi,const std::vector<cv::KeyPoint>& keypointsj)
 {
 	cv::FlannBasedMatcher aMatcher=cv::FlannBasedMatcher();
 	std::vector<cv::DMatch> matches;
-	aMatcher.match(Descriptori,Descriptorj, matches);
+	aMatcher.match(Descriptori,Descriptorj, matches);// Descriptori corresponds to the queryImage and Descriptorj to the trainImage
 	double distanceImage=0;
-	for (int i=0;i<matches.size();i++)
+	for (int k=0;k<matches.size();k++)
 	{
-		distanceImage+=matches[i].distance;
+		cv::DMatch matchesk=matches[k];
+		float distanceDescriptor=matchesk.distance;
+
+		int queryIdx=matchesk.queryIdx;
+		int trainIdx=matchesk.trainIdx;
+		cv::Point2f pti=keypointsi[queryIdx].pt;
+		cv::Point2f ptj=keypointsj[trainIdx].pt;
+		cv::Point2f keypointDiff=pti-ptj;
+		float distanceKeypoint=sqrt(keypointDiff.x*keypointDiff.x+keypointDiff.y*keypointDiff.y);
+
+		distanceImage+=distanceKeypoint*distanceDescriptor;
 	}
+	// distanceImage/=matches.size();
 	return distanceImage;
 	// add a file storage method to put the matches between two images but in a loop maybe
 }
@@ -39,10 +56,16 @@ void Matcher::computeDistanceMatrices()
 	{
 		// cv::Ptr<cv::Mat_<CV_32FC1>> m_distanceMatricesi=m_distanceMatrices.ptr<float>(i);
 		cv::Mat Descriptori=m_descriptors[i];
+		std::vector<cv::KeyPoint> keypointsi=m_keypoints[i];
+				// std::vector<cv::Mat> m_descriptors; //a pointer to the descriptors of every frame of the video
+
+		// std::vector<std::vector<cv::KeyPoint> > m_keypoints;
 		for (int j=0;j<i;j++)
 		{	
+			cv::Mat Descriptorj=m_descriptors[j];
+			std::vector<cv::KeyPoint> keypointsj=m_keypoints[j];
 			std::cout<<"compute distance between images"<<i<<" and "<<j<<std::endl;
-			m_distanceMatrices.at<float>(i,j)=computeDistanceDescriptor(Descriptori,m_descriptors[j]);
+			m_distanceMatrices.at<float>(i,j)=computeDistanceDescriptor(Descriptori,Descriptorj,keypointsi,keypointsj);
 		}
 	}
 	// delete m_distanceMatricesi;

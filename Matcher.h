@@ -1,6 +1,7 @@
 #ifndef MATCHER_H_INCLUDED
 #define MATCHER_H_INCLUDED
 #include "Descriptors.h"
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <opencv/highgui.h>
@@ -20,7 +21,8 @@ class Matcher
 	public:
 		Matcher( Descriptors &descriptor);
 		// ~Matcher();
-		double computeDistanceDescriptor(const cv::Mat &Descriptori,const cv::Mat &Descriptorj);
+		// double computeDistanceDescriptor(const cv::Mat &Descriptori,const cv::Mat &Descriptorj);
+		double computeDistanceDescriptor(const cv::Mat &Descriptori,const cv::Mat &Descriptorj,const std::vector<cv::KeyPoint> &keypointsi,const std::vector<cv::KeyPoint>& keypointsj);
 		void computeDistanceMatrices();
 		// SiftMatcher(const cv::Mat &image1,const cv::Mat &image2);// this constructor compute the descriptors and the matchs
 		// SiftMatcher(const cv::Mat &image1,const cv::Mat &image2,const Descriptor &feature1,const Descriptor &feature2);
@@ -38,6 +40,8 @@ class Matcher
 		// static double computeDistanceMatches(const std::vector<cv::DMatch> &matches);
 	private:
 		std::vector<cv::Mat> m_descriptors; //a pointer to the descriptors of every frame of the video
+		std::vector<std::vector<cv::KeyPoint> > m_keypoints;
+
 		cv::Mat m_distanceMatrices;
 		// std::vector<cv::DMatch> descripto
 		// cv::Mat m_image1;
