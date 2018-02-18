@@ -4,7 +4,7 @@
 #include <deque>
 #include <opencv2/core/core.hpp>
 #include <iostream>
-
+#include "BranchAndBound.h"
 
 // this class get a matrix containing the set of similarities between each set of two images, and give the ordering to use
 class OrderVideo

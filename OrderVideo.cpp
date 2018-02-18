@@ -21,10 +21,14 @@ OrderVideo::OrderVideo(const std::string &filename)
 	m_numberOfVideos=sizeMatrice.height;
 
 	std::cout<<"ordering the video"<<std::endl;
-	naiveReordering();
+		// cv::Mat distanceMatrix;OrderVideo::readMatrix("tempDistanceMatrix.txt",distanceMatrix);
+
+	std::vector<int> goldenList;BranchAndBound(m_distanceMatrices,goldenList);
+	m_path=goldenList;
 	// for (int i=0;i<m_path.size();i++)
 	// {
-	// 	std::cout<<m_path[i]<<std::endl;
+	// 	m_path[i]=goldenList[i];
+	// 	// std::cout<<m_path[i]<<std::endl;
 	// }
 }
 
