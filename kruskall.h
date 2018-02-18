@@ -53,7 +53,7 @@ Graph createGraph(const std::vector<int> &vertexes, int E);
 int find( subset subsets[], int i);
 void Union( subset subsets[], int x, int y);
 int myComp(const void* a, const void* b);
-double KruskalMST( Graph graph);
+double KruskalMST(const Graph &graph);
 
 
 #endif

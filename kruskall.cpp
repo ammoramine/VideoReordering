@@ -111,7 +111,7 @@ int myComp(const void* a, const void* b)
 
 // The main function to construct MST using Kruskal's algorithm
 
-double KruskalMST( Graph graph)
+double KruskalMST(const Graph &graph)
 
 {
 
