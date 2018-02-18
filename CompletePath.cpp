@@ -12,6 +12,13 @@ CompletePath::CompletePath(const PartialPath & partialPath) :PartialPath(partial
 	m_cost+=m_matrixDistances.at<float>(m_list[m_list.size()-1],m_list[0]);//then we add the cost of the edge thtat links to the first element
 }
 
+void CompletePath::CompletePathCopy(const CompletePath & completePath1, CompletePath & completePath2)
+{
+	completePath2.m_list=completePath1.m_list;
+	completePath2.m_matrixDistances=completePath1.m_matrixDistances;
+	completePath2.m_n=completePath1.m_n;
+	completePath2.m_cost=completePath1.m_cost;
+}
 double CompletePath::getTheCost()
 {
 	return m_cost;
