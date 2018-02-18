@@ -60,9 +60,22 @@ void PartialPath::remove(int &element)
 	}
 	m_list.pop_back();
 }
-void PartialPath::remainingList(std::vector<int> &remainingList)
+void PartialPath::remainingList(std::vector<int> &remainingList) const
 {
-	remainingList=std::vector<int>(m_n,0); 
+	// try
+	// {
+	// 	std::vector<int>  remainingListCopy=remainingList;
+	// remainingList.resize(m_n);
+	// std::cout<<m_n<<std::endl;
+	remainingList.clear();remainingList=std::vector<int>(m_n,0); 
+	// 	throw remainingListCopy;
+	// }
+	// catch (std::vector<int> const& remainingListCopy)
+	// {
+	// 	for (int i=0;i<remainingListCopy.size();i++) std::cout<<remainingListCopy[i]<<std::endl;
+	// 		// exit(-1);
+	// }
+
 	for (int i=0;i<m_n;i++) remainingList[i]=i;
 	for (int j=0;j<m_list.size();j++)
 	{
@@ -151,31 +164,45 @@ double PartialPath::krushkallBound()
 	}
 }
 
+// double PartialPath::searchTheLackingElementToComputeTheTotalCost()
+// // the path
+// {
+
+// // }
+// void PartialPath::closeThePath()
+// // we represent a path by all its elements aside its last element (to avoid redundancy), but once we get a path of size m_n-1, we would need to compute its cost as a tour, for the decision to compute 
+// {
+
+// }
 double PartialPath::closedCost()
 {
+	return 0;
 	// try
 	// {
-	if (m_list.size()==m_n-1)
-	{
-		double value=m_cost+m_matrixDistances.at<float>(m_list[m_list.size()-1],m_list[0]);
-		return value;
-	}
-	else
-	{
-			std::cout<<"the path is not complete, we can't compute the closed cost"<<std::endl;
-			exit(1);
-		// throw std::invalid_argument( "the path is not complete, we can't compute the closed cost" );
-	}
-	// }
-	// catch (std::invalid_argument& e)
+	// if (m_list.size()==m_n-1)
 	// {
-	// 	// exit(1);
-	// // 	// std::cout<<"the path is not complete, we can't compute the closed cost"<<std::endl;
+	// 	double value=m_cost+m_matrixDistances.at<float>(m_list[m_list.size()-1],m_list[0]);
+	// 	return value;
+	// }
+	// else
+	// {
+	// 		std::cout<<"the path is not complete, we can't compute the closed cost"<<std::endl;
+	// 		exit(1);
+	// 	// throw std::invalid_argument( "the path is not complete, we can't compute the closed cost" );
 	// }
 }
 int PartialPath::getSizePath()
 {
 	return m_list.size();
+}
+void PartialPath::initPathWithNoOrdering()
+{
+	m_list=std::vector<int>(m_n-1);for (int i=0;i<m_list.size();i++) m_list[i]=i;
+	m_cost=0;
+	for (int i=0;i<m_list.size()-1;i++) 
+		{
+			m_cost+=m_matrixDistances.at<float>(m_list[i],m_list[i+1]);
+		}
 }
 
 void PartialPath::initPathByNaiveReordering()
@@ -218,9 +245,18 @@ void PartialPath::initPathByNaiveReordering()
 	for (int i=0;i<m_list.size()-1;i++) m_cost+=m_matrixDistances.at<float>(m_list[i],m_list[i+1]);
 	// m_cost+=m_matrixDistances.at<float>(m_list[m_list.size()-1],m_list[0]);
 }
-void PartialPath::getList(std::vector<int> &list)
+void PartialPath::getList(std::vector<int> &list) const 
 {
 	list=m_list;
+}
+void PartialPath::printPath()
+{
+	std::cout<<"elements of the list"<<std::endl;
+	for (int i=0;i<m_list.size();i++)
+	{
+		std::cout<<m_list[i]<<std::endl;
+	}
+	std::cout<<"the cost is : "<<m_cost<<std::endl;
 }
 // void PartialPath::test()
 // {

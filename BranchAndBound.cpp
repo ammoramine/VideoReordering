@@ -71,7 +71,22 @@ BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances,const PartialPat
 // }
 
 
+void BranchAndBound::searchList(const PartialPath &m_currentPath, std::vector<int> &searchList,int excludedNode)
+// construct the list of node to explore after the last node of the current Path, aside the excluded node
+{
+	m_currentPath.remainingList(searchList);
 
+	// remove the excluded Node
+	for (int i=0;i<searchList.size();i++)
+	{
+		if (searchList[i]==excludedNode)
+		{
+			searchList.erase(searchList.begin()+i);
+			break;
+		}
+	}
+
+}
 
 
 

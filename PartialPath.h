@@ -15,16 +15,18 @@ class PartialPath
 		static void PartialPathCopy(const PartialPath& partialPath,PartialPath& newPartialPath);
 		void add(int element);// add element to the list at the end of the list
 		void remove(int &element); // remove element of the list at its end 
-		void remainingList(std::vector<int> &m_remainingList);
+		void remainingList(std::vector<int> &m_remainingList) const; 
 		void listOfVerticesForGraphOfRemainingPath(std::vector<int> &verticesOfGraph);
 		void remainingGraph(Graph &graph);// compute a graph that contains the remaining elements
 		// void getGraph(Graph &graph);
 		double krushkallBound(); //compute the bound associated to the partial path for the branch and bound algorithm using the krushkall algorithm for computing the minimum spanning tree
 		double closedCost();
 		int getSizePath();
+		void initPathWithNoOrdering();
 		void initPathByNaiveReordering();
-		void getList(std::vector<int> &list);
-	private:
+		void getList(std::vector<int> &list) const;
+		void printPath();
+	protected:
 		int m_n; //length of the complete path equal to the height and width of m_matrixDistances
 		// int m_closingVertex;
 		cv::Mat m_matrixDistances;
