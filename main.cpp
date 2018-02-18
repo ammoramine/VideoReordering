@@ -9,12 +9,14 @@
 
 int main (int argc, char* argv[])
 {
-	bool testBranchAndBound=true;
-	// bool testBranchAndBound=false;
+	// bool testBranchAndBound=true;
+	bool testBranchAndBound=false;
 	if(testBranchAndBound)
 	{
 
 	// cv::Mat distanceMatrix;OrderVideo::readMatrix("tempDistanceMatrix.txt",distanceMatrix);
+	// std::vector<int> goldenList;BranchAndBound(distanceMatrix,goldenList);
+
 	// int initList[] = {0,1,2,7,10,3};
 	// std::vector<int> aList(initList,initList+sizeof(initList)/sizeof(int));
 	// PartialPath currentPath=PartialPath(aList,distanceMatrix);
@@ -44,6 +46,7 @@ int main (int argc, char* argv[])
 			distanceMatrixiRow.at<float>(j)=distanceMatrixiCol.at<float>(j);
 		}
 	}
+	std::vector<int> goldenList;BranchAndBound(distanceMatrix,goldenList);
 
 
 	// 	int n=5;
@@ -62,7 +65,7 @@ int main (int argc, char* argv[])
 	// cv::FileStorage myFileStorage("RandomdistanceMatrix.txt", cv::FileStorage::WRITE);
 	// myFileStorage<<"matrix" << distanceMatrix;
 	// distanceMatrix
-	std::vector<int> goldenList;BranchAndBound(distanceMatrix,goldenList);
+	// std::vector<int> goldenList;BranchAndBound(distanceMatrix,goldenList);
 	// std::cout<<"elements of the list"<<std::endl;
 	// for (int i=0;i<goldenList.size();i++)
 	// {
@@ -97,8 +100,8 @@ int main (int argc, char* argv[])
 
 	return 0;
 	}
-	bool dirtyTest=true;
-	// bool dirtyTest=false;
+	// bool dirtyTest=true;
+	bool dirtyTest=false;
 	if (!dirtyTest)
 	{
 
@@ -108,8 +111,8 @@ int main (int argc, char* argv[])
 
 	//here we make the computation but if we already saved on a file, no need for that
 
-	// Descriptors descriptors=Descriptors(disorderedImages);
-	// Matcher matcher=Matcher(descriptors);
+	Descriptors descriptors=Descriptors(disorderedImages);
+	Matcher matcher=Matcher(descriptors);
 
 	// //////	
 	std::vector<cv::Mat> orderedImages;

@@ -48,7 +48,10 @@ void PartialPath::PartialPathCopy(const PartialPath& partialPath,PartialPath& ne
 
 void PartialPath::add(int element)
 {
-	m_cost+=m_matrixDistances.at<float>(m_list[m_list.size()-1],element);
+	if (m_list.size()>0)
+	{
+		m_cost+=m_matrixDistances.at<float>(m_list[m_list.size()-1],element);
+	}
 	m_list.push_back(element);
 }
 void PartialPath::remove(int &element)

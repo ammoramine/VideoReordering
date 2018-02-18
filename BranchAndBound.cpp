@@ -16,24 +16,24 @@ BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances,std::vector<int>
 	goldenPath.getList(list);
 	goldenPath.printPath();
 }
-BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances,const PartialPath &currentPath,CompletePath &goldenPath,int excludedNode,bool onlyDeeperNodes)
+BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances, PartialPath &m_currentPath,CompletePath &goldenPath,int excludedNode,bool onlyDeeperNodes)
 // For recursivity's purpose and a good use of memory, we will integrate two modes,
 // in the first mode: onlyDeeperNodes=false
-// we explore all the  nodes that are below the final node of current Path, aside the excludedNode, and then we remove the last node of currentPath  (that we name lastNode) to  apply again the Branch and bound algorithm on the reduced currentPath aside the node lastNode, and by using the last update of goldenPath
-//in the second Mode, we don't apply again the BranchAnd bound algorithm again, i.e that we explore only the nodes that could complete currentPath
+// we explore all the  nodes that are below the final node of current Path, aside the excludedNode, and then we remove the last node of m_currentPath  (that we name lastNode) to  apply again the Branch and bound algorithm on the reduced m_currentPath aside the node lastNode, and by using the last update of goldenPath
+//in the second Mode, we don't apply again the BranchAnd bound algorithm again, i.e that we explore only the nodes that could complete m_currentPath
 {
 	if (onlyDeeperNodes==false)
 	{
-		std::cout<<"\n current level of tree exploration : "<<currentPath.getSizePath()<<std::endl;
+		std::cout<<"\n current level of tree exploration : "<<m_currentPath.getSizePath()<<std::endl;
 	}
-	if (currentPath.getSizePath()==0)
+	if (m_currentPath.getSizePath()==0)
 	{
 		return;
 	}
 	// printNodeInformationsOnFile(currentPath);
 	// m_currentPath=PartialPath(currentPath);
 	// PartialPath::PartialPathCopy(currentPath,m_currentPath);
-	PartialPath m_currentPath=PartialPath(currentPath);
+	// PartialPath m_currentPath=PartialPath(currentPath);
 	
 
 	// we have two cases: the current Path is of size m_n-1, in this case we just compute the complete cost and compare it with the cost of the last best path, ->
@@ -77,6 +77,7 @@ BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances,const PartialPat
 		// once we explored all the node and updated the goldenpath (the name given for the current best path), we go up on the tree of if possible,
 	
 		BranchAndBound(matrixOfDistances,m_currentPath,goldenPath,AnOtherExcludedNode,false);
+		m_currentPath.add(AnOtherExcludedNode);// this step is very important Because we want to conceive the BranchAndBound Algorithm in order to don't change its value
 	}
 	return;
 }
