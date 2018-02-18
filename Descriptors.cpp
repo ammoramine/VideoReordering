@@ -44,6 +44,13 @@ const void Descriptors::getDescriptors(std::vector<cv::Mat> &descriptors)
 	// for (int i=0;m_descriptors.size();i++) m_descriptors.push_back(descriptors[i]);//descriptors[i]=m_descriptors[i];
 	// return m_descriptors;
 }
+const void Descriptors::getKeypoints(std::vector<std::vector<cv::KeyPoint> > &keypoints)
+{
+	keypoints= m_keypoints;
+	// descriptors.resize(descriptors.size());
+	// for (int i=0;m_descriptors.size();i++) m_descriptors.push_back(descriptors[i]);//descriptors[i]=m_descriptors[i];
+	// return m_descriptors;
+}
 size_t Descriptors::getSize()
 {
 	return m_size;

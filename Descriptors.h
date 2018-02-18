@@ -24,6 +24,7 @@ public:
 	void showKeypointsOnImage(int indexImage);
 	size_t getSize();// int size;
 	const void getDescriptors(std::vector<cv::Mat> &descriptors);
+	const void getKeypoints(std::vector<std::vector<cv::KeyPoint> > &keypoints);
 // Descriptor(const cv::Mat &image);
 // Descriptor(Descriptor const &autreDescripteur);
 // ~Descriptor();
