@@ -1,13 +1,14 @@
 #include "BranchAndBound.h"
 
 std::string BranchAndBound::m_filePath="path_history.txt";
+// std::string BranchAndBound::m_currentNodeOfTree;
 int BranchAndBound::m_number=0;
 
 BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances,std::vector<int> &list)
 {
 	PartialPath currentPath=PartialPath(std::vector<int>(1,0),matrixOfDistances);
-	currentPath.initPathWithNoOrdering();
-	// currentPath.initPathByNaiveReordering();
+	// currentPath.initPathWithNoOrdering();
+	currentPath.initPathByNaiveReordering();
 	CompletePath goldenPath=PartialPath(currentPath);
 	int excludedNode;currentPath.remove(excludedNode);
 	bool onlyDeeperNodes=false;// we begin by a completePath at the beginning
@@ -21,6 +22,10 @@ BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances,const PartialPat
 // we explore all the  nodes that are below the final node of current Path, aside the excludedNode, and then we remove the last node of currentPath  (that we name lastNode) to  apply again the Branch and bound algorithm on the reduced currentPath aside the node lastNode, and by using the last update of goldenPath
 //in the second Mode, we don't apply again the BranchAnd bound algorithm again, i.e that we explore only the nodes that could complete currentPath
 {
+	if (onlyDeeperNodes==false)
+	{
+		std::cout<<"\n current level of tree exploration : "<<currentPath.getSizePath()<<std::endl;
+	}
 	if (currentPath.getSizePath()==0)
 	{
 		return;

@@ -20,6 +20,6 @@ class BranchAndBound
 		// std::vector<int> m_goldenPath;
 		static std::string m_filePath;
 		static int m_number;
-		int m_firstNode;
+		static int m_currentNodeOfTree;
 };
 #endif
