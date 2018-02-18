@@ -21,9 +21,11 @@ class PartialPath
 		// void getGraph(Graph &graph);
 		double krushkallBound(); //compute the bound associated to the partial path for the branch and bound algorithm using the krushkall algorithm for computing the minimum spanning tree
 		double closedCost();
-		int getSizePath();
+		int getSizePath() const;
 		void initPathWithNoOrdering();
 		void initPathByNaiveReordering();
+		bool isTourWellDefined();
+
 		void getList(std::vector<int> &list) const;
 		void printPath();
 	protected:

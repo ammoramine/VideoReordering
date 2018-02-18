@@ -191,7 +191,7 @@ double PartialPath::closedCost()
 	// 	// throw std::invalid_argument( "the path is not complete, we can't compute the closed cost" );
 	// }
 }
-int PartialPath::getSizePath()
+int PartialPath::getSizePath() const
 {
 	return m_list.size();
 }
@@ -245,6 +245,20 @@ void PartialPath::initPathByNaiveReordering()
 	for (int i=0;i<m_list.size()-1;i++) m_cost+=m_matrixDistances.at<float>(m_list[i],m_list[i+1]);
 	// m_cost+=m_matrixDistances.at<float>(m_list[m_list.size()-1],m_list[0]);
 }
+
+
+bool PartialPath::isTourWellDefined()
+// return true if m_list is of sze m_n-1, in this case the tour is well defined we should just add the remaining node to define it
+{
+	return (m_list.size()==m_n-1);
+}
+
+
+
+
+
+
+
 void PartialPath::getList(std::vector<int> &list) const 
 {
 	list=m_list;
