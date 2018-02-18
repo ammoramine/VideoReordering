@@ -16,14 +16,18 @@ Matcher::Matcher( Descriptors &descriptors)
 		// std::vector<cv::Mat> m_descriptors; //a pointer to the descriptors of every frame of the video
 
 		// std::vector<std::vector<cv::KeyPoint> > m_keypoints;
-
+bool Matcher::wayToSortMatches(const cv::DMatch &matche1,const cv::DMatch &matche2) { return matche1.distance< matche2.distance; }
 double Matcher::computeDistanceDescriptor(const cv::Mat &Descriptori,const cv::Mat &Descriptorj,const std::vector<cv::KeyPoint> &keypointsi,const std::vector<cv::KeyPoint>& keypointsj)
 {
-	cv::FlannBasedMatcher aMatcher=cv::FlannBasedMatcher();
+	// cv::FlannBasedMatcher aMatcher=cv::FlannBasedMatcher();
 	std::vector<cv::DMatch> matches;
+		cv::BFMatcher aMatcher(cv::NORM_L2);
 	aMatcher.match(Descriptori,Descriptorj, matches);// Descriptori corresponds to the queryImage and Descriptorj to the trainImage
 	double distanceImage=0;
-	for (int k=0;k<matches.size();k++)
+	int numberOfTakenMatches=std::min<int>(matches.size(),60);
+	sort(matches.begin(),matches.end(),wayToSortMatches);
+	// std::nth_element(matches.begin(),matches.begin()+numberOfTakenMatches,matches.end());
+	for (int k=0;k<numberOfTakenMatches;k++)
 	{
 		cv::DMatch matchesk=matches[k];
 		float distanceDescriptor=matchesk.distance;
@@ -36,8 +40,9 @@ double Matcher::computeDistanceDescriptor(const cv::Mat &Descriptori,const cv::M
 		float distanceKeypoint=sqrt(keypointDiff.x*keypointDiff.x+keypointDiff.y*keypointDiff.y);
 
 		distanceImage+=distanceKeypoint*distanceDescriptor;
+		// distanceImage+=distanceDescriptor;
 	}
-	// distanceImage/=matches.size();
+	distanceImage/=numberOfTakenMatches;
 	return distanceImage;
 	// add a file storage method to put the matches between two images but in a loop maybe
 }

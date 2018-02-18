@@ -22,8 +22,10 @@ class Matcher
 		Matcher( Descriptors &descriptor);
 		// ~Matcher();
 		// double computeDistanceDescriptor(const cv::Mat &Descriptori,const cv::Mat &Descriptorj);
+		static bool wayToSortMatches(const cv::DMatch &matche1,const cv::DMatch &matche2);
 		double computeDistanceDescriptor(const cv::Mat &Descriptori,const cv::Mat &Descriptorj,const std::vector<cv::KeyPoint> &keypointsi,const std::vector<cv::KeyPoint>& keypointsj);
 		void computeDistanceMatrices();
+
 		// SiftMatcher(const cv::Mat &image1,const cv::Mat &image2);// this constructor compute the descriptors and the matchs
 		// SiftMatcher(const cv::Mat &image1,const cv::Mat &image2,const Descriptor &feature1,const Descriptor &feature2);
 		// ~SiftMatcher();
