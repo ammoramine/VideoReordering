@@ -5,15 +5,70 @@
 #include "kruskall.h"
 #include "partialPath.h"
 #include "BranchAndBound.h"
+
+
 int main (int argc, char* argv[])
 {
 	bool testBranchAndBound=true;
 	// bool testBranchAndBound=false;
 	if(testBranchAndBound)
 	{
-	cv::Mat distanceMatrix;OrderVideo::readMatrix("tempDistanceMatrix.txt",distanceMatrix);
-	std::vector<int> goldenList;BranchAndBound(distanceMatrix,goldenList);
 
+	// cv::Mat distanceMatrix;OrderVideo::readMatrix("tempDistanceMatrix.txt",distanceMatrix);
+	// int initList[] = {0,1,2,7,10,3};
+	// std::vector<int> aList(initList,initList+sizeof(initList)/sizeof(int));
+	// PartialPath currentPath=PartialPath(aList,distanceMatrix);
+	// std::cout<<currentPath.krushkallBound()<<std::endl;
+
+
+
+	cv::Mat distanceMatrix=cv::Mat(5,5,CV_32FC1);
+	distanceMatrix.at<float>(0,1)=3;
+	distanceMatrix.at<float>(0,2)=2;
+	distanceMatrix.at<float>(0,3)=5;
+	distanceMatrix.at<float>(0,4)=3;
+	distanceMatrix.at<float>(1,2)=3;
+	distanceMatrix.at<float>(1,3)=2;
+	distanceMatrix.at<float>(1,4)=6;
+	distanceMatrix.at<float>(2,3)=3;
+	distanceMatrix.at<float>(2,4)=3;
+	distanceMatrix.at<float>(3,4)=4;
+	for (int i=0;i<5;i++) distanceMatrix.at<float>(i,i)=std::numeric_limits<float>::infinity();
+	
+	for (int i=0;i<5;i++)
+	{
+		cv::Mat distanceMatrixiRow=distanceMatrix.row(i);
+		cv::Mat distanceMatrixiCol=distanceMatrix.col(i);
+		for (int j=0;j<i;j++)
+		{
+			distanceMatrixiRow.at<float>(j)=distanceMatrixiCol.at<float>(j);
+		}
+	}
+
+
+	// 	int n=5;
+	// cv::Mat distanceMatrix=cv::Mat(n,n,CV_32FC1,cv::Scalar(0));
+	// cv::randu(distanceMatrix,1,10);
+	// for (int i=0;i<n;i++) distanceMatrix.at<float>(i,i)=std::numeric_limits<float>::infinity();
+	// for (int i=0;i<n;i++)
+	// {
+	// 	cv::Mat distanceMatrixiRow=distanceMatrix.row(i);
+	// 	cv::Mat distanceMatrixiCol=distanceMatrix.col(i);
+	// 	for (int j=0;j<i;j++)
+	// 	{
+	// 		distanceMatrixiRow.at<float>(j)=distanceMatrixiCol.at<float>(j);
+	// 	}
+	// }
+	// cv::FileStorage myFileStorage("RandomdistanceMatrix.txt", cv::FileStorage::WRITE);
+	// myFileStorage<<"matrix" << distanceMatrix;
+	// distanceMatrix
+	std::vector<int> goldenList;BranchAndBound(distanceMatrix,goldenList);
+	// std::cout<<"elements of the list"<<std::endl;
+	// for (int i=0;i<goldenList.size();i++)
+	// {
+	// 	std::cout<<goldenList[i]<<std::endl;
+	// }
+	// std::cout<<"the cost is : "<<m_cost<<std::endl;
 	// cv::Size sizeMatrice=distanceMatrix.size();
 	// std::vector<int> list=std::vector<int>(sizeMatrice.height-1);
 
@@ -42,8 +97,8 @@ int main (int argc, char* argv[])
 
 	return 0;
 	}
-	// bool dirtyTest=true;
-	bool dirtyTest=false;
+	bool dirtyTest=true;
+	// bool dirtyTest=false;
 	if (!dirtyTest)
 	{
 
@@ -53,15 +108,15 @@ int main (int argc, char* argv[])
 
 	//here we make the computation but if we already saved on a file, no need for that
 
-	Descriptors descriptors=Descriptors(disorderedImages);
-	Matcher matcher=Matcher(descriptors);
+	// Descriptors descriptors=Descriptors(disorderedImages);
+	// Matcher matcher=Matcher(descriptors);
 
 	// //////	
-	// std::vector<cv::Mat> orderedImages;
-	// OrderVideo orderVideo=OrderVideo("tempDistanceMatrix.txt");
-	// orderVideo.getOrderedVideo(disorderedImages,orderedImages);
-	// videoController.setOrderedImages(orderedImages);
-	// videoController.writeVideo();
+	std::vector<cv::Mat> orderedImages;
+	OrderVideo orderVideo=OrderVideo("tempDistanceMatrix.txt");
+	orderVideo.getOrderedVideo(disorderedImages,orderedImages);
+	videoController.setOrderedImages(orderedImages);
+	videoController.writeVideo();
 	}
 	else
 	{
@@ -90,7 +145,7 @@ int main (int argc, char* argv[])
 
     int V = 5; // Number of vertices in graph
 
-    int E = 6; // Number of edges in graph
+    int E = 10; // Number of edges in graph
 
     std::vector<int> vertexes=std::vector<int>(V,0);for (int i=0;i<V;i++) vertexes[i]=i;
     Graph graph = createGraph(vertexes, E);
@@ -100,60 +155,64 @@ int main (int argc, char* argv[])
     // add edge 0-1
 
     graph.edge[0].src = 0;
-
     graph.edge[0].dest = 1;
-
-    graph.edge[0].weight = 10.3;
-
- 
+    graph.edge[0].weight = 3;
 
     // add edge 0-2
 
     graph.edge[1].src = 0;
-
     graph.edge[1].dest = 2;
-
-    graph.edge[1].weight = 6.2;
+    graph.edge[1].weight = 2;
 
  
 
     // add edge 0-3
 
     graph.edge[2].src = 0;
-
     graph.edge[2].dest = 3;
+    graph.edge[2].weight = 5;
 
-    graph.edge[2].weight = 5.5;
+    // add edge 0-4
 
- 
+    graph.edge[3].src = 0;
+    graph.edge[3].dest = 4;
+    graph.edge[3].weight = 3; 
 
-    // add edge 1-3
+    // add edge 1-2
 
-    graph.edge[3].src = 1;
+    graph.edge[4].src = 1;
+    graph.edge[4].dest = 2;
+    graph.edge[4].weight =3;
 
-    graph.edge[3].dest = 3;
+     // add edge 1-3
 
-    graph.edge[3].weight = 15;
+    graph.edge[5].src = 1;
+    graph.edge[5].dest = 3;
+    graph.edge[5].weight =2;
 
- 
+      // add edge 1-4
 
-    // add edge 2-3
+    graph.edge[6].src = 1;
+    graph.edge[6].dest = 4;
+    graph.edge[6].weight =6;
 
-    graph.edge[4].src = 2;
+      // add edge 2-3
 
-    graph.edge[4].dest = 3;
+    graph.edge[7].src = 2;
+    graph.edge[7].dest = 3;
+    graph.edge[7].weight =3;
 
-    graph.edge[4].weight = 4;
+      // add edge 2-4
 
- 
+    graph.edge[8].src = 2;
+    graph.edge[8].dest = 4;
+    graph.edge[8].weight =3;
 
-    // add edge 3-4
+      // add edge 3-4
 
-    graph.edge[5].src = 3;
-
-    graph.edge[5].dest = 4;
-
-    graph.edge[5].weight = 1;
+    graph.edge[9].src = 3;
+    graph.edge[9].dest = 4;
+    graph.edge[9].weight =4;
 
     double cost=KruskalMST(graph);
     std::cout<<"the cost is : "<< cost<<std::endl;

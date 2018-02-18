@@ -10,23 +10,42 @@ BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances,std::vector<int>
 	// currentPath.initPathByNaiveReordering();
 	CompletePath goldenPath=PartialPath(currentPath);
 	int excludedNode;currentPath.remove(excludedNode);
-	BranchAndBound(matrixOfDistances,currentPath,goldenPath,excludedNode);
-	// goldenPath.getList(list);
-	// goldenPath.printPath();
+	bool onlyDeeperNodes=false;// we begin by a completePath at the beginning
+	BranchAndBound(matrixOfDistances,currentPath,goldenPath,excludedNode,onlyDeeperNodes);
+	goldenPath.getList(list);
+	goldenPath.printPath();
 }
-BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances,const PartialPath &currentPath,CompletePath &goldenPath,int excludedNode)
+BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances,const PartialPath &currentPath,CompletePath &goldenPath,int excludedNode,bool onlyDeeperNodes)
+// For recursivity's purpose and a good use of memory, we will integrate two modes,
+// in the first mode: onlyDeeperNodes=false
+// we explore all the  nodes that are below the final node of current Path, aside the excludedNode, and then we remove the last node of currentPath  (that we name lastNode) to  apply again the Branch and bound algorithm on the reduced currentPath aside the node lastNode, and by using the last update of goldenPath
+//in the second Mode, we don't apply again the BranchAnd bound algorithm again, i.e that we explore only the nodes that could complete currentPath
 {
+	if (currentPath.getSizePath()==0)
+	{
+		return;
+	}
 	// printNodeInformationsOnFile(currentPath);
 	// m_currentPath=PartialPath(currentPath);
 	// PartialPath::PartialPathCopy(currentPath,m_currentPath);
 	PartialPath m_currentPath=PartialPath(currentPath);
-	if (m_currentPath.getSizePath()==0)
-	{
-		return;
-	}
+	
 
+	// we have two cases: the current Path is of size m_n-1, in this case we just compute the complete cost and compare it with the cost of the last best path, ->
+	if  (m_currentPath.isTourWellDefined())//mm_currentPath.getSizePath()==m_currentPath.m_n-1)
+	{
+		CompletePath theCompleteAssociatedPath=CompletePath(m_currentPath);
+		if (theCompleteAssociatedPath.getTheCost()<goldenPath.getTheCost())
+		{
+			CompletePath::CompletePathCopy(theCompleteAssociatedPath,goldenPath);
+		}
+	}
+	
+	else
+		//-> otherwise we test the krushkall bound for all the node aside the excludedNode then if the test is valid we explore the node by applying the branch and bound algorithm
+	{
 	std::vector<int> searchList;
-	searchListConstruct(m_currentPath, searchList, excludedNode);
+	searchListConstruct(m_currentPath, searchList, excludedNode); 
 
 	for (int k=0;k<searchList.size();k++)
 	{
@@ -40,12 +59,21 @@ BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances,const PartialPat
 		if (value<goldenPath.getTheCost())
 		{
 			// m_currentPath.printPath();
-			BranchAndBound(matrixOfDistances,m_currentPath,goldenPath,-1);
+			BranchAndBound(matrixOfDistances,m_currentPath,goldenPath,-1,true);
 		}
 		int anElement;m_currentPath.remove(anElement); // get Back to the initial form before the next iteration of the loop
 	}
-	int AnOtherExcludedNode;m_currentPath.remove(AnOtherExcludedNode);
-	BranchAndBound(matrixOfDistances,m_currentPath,goldenPath,AnOtherExcludedNode);
+	}
+
+	
+	if (onlyDeeperNodes==false)
+	{
+		int AnOtherExcludedNode;m_currentPath.remove(AnOtherExcludedNode);
+		// once we explored all the node and updated the goldenpath (the name given for the current best path), we go up on the tree of if possible,
+	
+		BranchAndBound(matrixOfDistances,m_currentPath,goldenPath,AnOtherExcludedNode,false);
+	}
+	return;
 }
 
 // void BranchAndBound::initPath(const cv::Mat &matrixOfDistances,const PartialPath &currentPath,PartialPath &goldenPath,int excludedNode)
