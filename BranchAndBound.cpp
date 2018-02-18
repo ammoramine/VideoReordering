@@ -24,25 +24,16 @@ BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances,const PartialPat
 	{
 		return;
 	}
-	std::vector<int> remainingList;
-	m_currentPath.remainingList(remainingList);
 
-	// remove the excluded Node
-	for (int i=0;i<remainingList.size();i++)
-	{
-		if (remainingList[i]==excludedNode)
-		{
-			remainingList.erase(remainingList.begin()+i);
-			break;
-		}
-	}
+	std::vector<int> searchList;
+	searchListConstruct(m_currentPath, searchList, excludedNode);
 
-	for (int k=0;k<remainingList.size();k++)
+	for (int k=0;k<searchList.size();k++)
 	{
-		// PartialPath::PartialPathCopy(m_currentPath,currentPathPlusNodeRemainingListk);
-		// PartialPath currentPathPlusNodeRemainingListk=PartialPath(m_currentPath);
-		// currentPathPlusNodeRemainingListk.add(remainingList[k]);
-		m_currentPath.add(remainingList[k]);
+		// PartialPath::PartialPathCopy(m_currentPath,currentPathPlusNodesearchListk);
+		// PartialPath currentPathPlusNodesearchListk=PartialPath(m_currentPath);
+		// currentPathPlusNodesearchListk.add(searchList[k]);
+		m_currentPath.add(searchList[k]);
 		// std::cout<<m_currentPath.getSizePath()<<std::endl;
 		// m_currentPath.printPath();
 		double value=m_currentPath.krushkallBound();
@@ -71,7 +62,7 @@ BranchAndBound::BranchAndBound(const cv::Mat &matrixOfDistances,const PartialPat
 // }
 
 
-void BranchAndBound::searchList(const PartialPath &m_currentPath, std::vector<int> &searchList,int excludedNode)
+void BranchAndBound::searchListConstruct(const PartialPath &m_currentPath, std::vector<int> &searchList,int excludedNode)
 // construct the list of node to explore after the last node of the current Path, aside the excluded node
 {
 	m_currentPath.remainingList(searchList);

@@ -10,7 +10,7 @@ class BranchAndBound
 	public:
 		BranchAndBound(const cv::Mat &matrixOfDistances,const PartialPath &currentPath,CompletePath &goldenPath,int excludedNode);
 		BranchAndBound(const cv::Mat &matrixOfDistances,std::vector<int> &list);
-		void searchList(const PartialPath &m_currentPath, std::vector<int> &searchList,int excludedNode);
+		void searchListConstruct(const PartialPath &m_currentPath, std::vector<int> &searchList,int excludedNode);
 		void initPath();
 		void printNodeInformationsOnFile(const PartialPath &currentPath);
 		// void initPath();
