@@ -104,22 +104,30 @@ int main (int argc, char* argv[])
 	bool dirtyTest=false;
 	if (!dirtyTest)
 	{
-
+	// if (true)
+	// {
 	VideoController videoController=VideoController("corrupted_video.mp4","corrupted_video_ordered.mp4");
 	std::vector<cv::Mat> disorderedImages;
 	videoController.getDisorderedImages(disorderedImages);
 
-	//here we make the computation but if we already saved on a file, no need for that
 
+	//the if statements are artifices used due to memory issues on my computer
+	if (true)
+	{
 	Descriptors descriptors=Descriptors(disorderedImages);
 	Matcher matcher=Matcher(descriptors);
+	}
+	// matcher.~Matcher();
+	// descriptors.~Descriptors();
 
-	// //////	
+	if (true)
+	{
 	std::vector<cv::Mat> orderedImages;
 	OrderVideo orderVideo=OrderVideo("tempDistanceMatrix.txt");
 	orderVideo.getOrderedVideo(disorderedImages,orderedImages);
 	videoController.setOrderedImages(orderedImages);
 	videoController.writeVideo();
+	}
 	}
 	else
 	{

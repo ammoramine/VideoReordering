@@ -2,7 +2,7 @@
 
 Descriptors::Descriptors(const std::vector<cv::Mat> &disorderedImages)
 {
-	cv::Ptr<cv::xfeatures2d::SIFT> sift=cv::xfeatures2d::SIFT::create(60);
+	cv::Ptr<cv::xfeatures2d::SIFT> sift=cv::xfeatures2d::SIFT::create(2500);
 	// sift>detectAndCompute();
 	// m_disorderedImages=disorderedImages;
 	m_size=m_disorderedImages.size();
