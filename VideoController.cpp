@@ -10,8 +10,8 @@ VideoController::VideoController(const std::string &filenameInput,const std::str
     	std::cout<< "ERROR! Unable to open the video\n"<<std::endl;
 	}
 	cv::Mat frame;
-	// for(;;) {
-	for(int k=0;k<30;k++) {
+	for(;;) {
+	// for(int k=0;k<30;k++) {
 		if (m_capture.read(frame))
 		{
 			m_disorderedImages.push_back(frame.clone());

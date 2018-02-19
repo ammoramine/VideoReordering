@@ -24,7 +24,7 @@ double Matcher::computeDistanceDescriptor(const cv::Mat &Descriptori,const cv::M
 		cv::BFMatcher aMatcher(cv::NORM_L2);
 	aMatcher.match(Descriptori,Descriptorj, matches);// Descriptori corresponds to the queryImage and Descriptorj to the trainImage
 	double distanceImage=0;
-	int numberOfTakenMatches=std::min<int>(matches.size(),60);
+	int numberOfTakenMatches=std::min<int>(matches.size(),30);
 	sort(matches.begin(),matches.end(),wayToSortMatches);
 	// std::nth_element(matches.begin(),matches.begin()+numberOfTakenMatches,matches.end());
 	for (int k=0;k<numberOfTakenMatches;k++)

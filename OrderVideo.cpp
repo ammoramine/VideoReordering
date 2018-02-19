@@ -47,17 +47,21 @@ void OrderVideo::naiveReordering()
 	for (int i=0;i<listOfRemainingIndexes.size();i++) listOfRemainingIndexes[i]=i;
 
 	listOfRemainingIndexes.erase(listOfRemainingIndexes.begin());
-	m_path.push_back(0);//
+	std::deque<int> pathDeque;//=std::deque<int>(m_n,0); 
+	pathDeque.push_back(0);//
 	
 	// std::vector<int> m_path=std::vector<int>(1,0);
 	int i=0;//
-	int iNext;
-	int iNextIndex;
+	int iNext=i;
+	int iNextIndex=i;
+	int iBefore=i;
+	int iBeforeIndex=i;
 	// listOfRemainingIndexes
 	while(listOfRemainingIndexes.size()>1)
 	{
 		// const float* distanceMatricesi=m_distanceMatrices.ptr<float>(i);
 		// int minDistancei=distanceMatricesi[i];
+		bool forward=true;
 		float minDistancei=m_distanceMatrices.at<float>(i,i);
 		for (int j=0;j<listOfRemainingIndexes.size();j++)
 		{
@@ -70,10 +74,35 @@ void OrderVideo::naiveReordering()
 				minDistancei=newDistance;
 			}
 		}
+
+		// float minDistancei=m_distanceMatrices.at<float>(i,i);
+		for (int j=0;j<listOfRemainingIndexes.size();j++)
+		{
+			// float newDistance=distanceMatricesi[listOfRemainingIndexes[j]];
+			float newDistance=m_distanceMatrices.at<float>(listOfRemainingIndexes[j],i);
+			if(newDistance<minDistancei)
+			{
+				iBefore=listOfRemainingIndexes[j];
+				iBeforeIndex=j;
+				minDistancei=newDistance;
+				forward=false;
+			}
+		}
 		listOfRemainingIndexes.erase(listOfRemainingIndexes.begin()+iNextIndex);
-		m_path.push_back(iNext);
-		i=iNext;
+		if (forward==true)
+		{
+			pathDeque.push_back(iNext);
+			i=iNext;
+		}
+		else
+		{
+			pathDeque.push_front(iNext);
+			i=iBefore;
+
+		}
 	}
+	m_path=std::vector<int>(pathDeque.size(),0);for (int i=0;i<pathDeque.size();i++) m_path[i]=pathDeque[i];
+	// m_path=std::vector<int>(pathDeque);
 }
 
 // void OrderVideo::orderImages_exhaustiveResearch_WithPriorComputedCost()
@@ -142,10 +171,12 @@ void OrderVideo::getOrderedVideo(const std::vector<cv::Mat> &disordoredImages, s
 
 	// }
 	// CV_Assert(m_path.size()!= disordoredImages.size());
-	// orderedImages.resize(disordoredImages.size());
+	orderedImages.clear();
+	orderedImages.resize(disordoredImages.size());
 	// orderedImages=disordoredImages;
 	for (int i=0;i<disordoredImages.size();i++)
 	{
-		orderedImages.push_back(disordoredImages[m_path[i]].clone());
+		// orderedImages.push_back(disordoredImages[m_path[i]].clone());
+		orderedImages[i]=disordoredImages[m_path[i]];
 	}
 }
